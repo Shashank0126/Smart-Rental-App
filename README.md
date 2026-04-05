@@ -156,6 +156,6 @@ This project is for educational and demonstration purposes.
 
 ## 👨‍💻 Author
 
-Developed by P.Shashank,A.Sadhvika 
+Developed by P.Shashank,A.Sadhvika Reddy.
 
 ---
