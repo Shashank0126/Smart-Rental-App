@@ -1,0 +1,327 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+/* ─── Custom Properties ──────────────────────────────────────────────── */
+:root {
+  --primary: #6366f1;
+  --primary-dark: #4f46e5;
+  --secondary: #8b5cf6;
+  --accent: #06b6d4;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --bg-dark: #0f0f1a;
+  --bg-card: #1a1a2e;
+  --bg-elevated: #16213e;
+  --text-primary: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border: rgba(99, 102, 241, 0.2);
+  --glass: rgba(255, 255, 255, 0.03);
+}
+
+/* ─── Base Styles ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Scrollbar ────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
+
+/* ─── Glass Card ───────────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+/* ─── Gradient Backgrounds ─────────────────────────────────────────────── */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Button Styles ────────────────────────────────────────────────────── */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: white;
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.45);
+}
+
+.btn-primary:active { transform: translateY(0); }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 10px 24px;
+  border-radius: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-ghost:hover {
+  background: var(--glass);
+  border-color: var(--primary);
+}
+
+/* ─── Input Styles ─────────────────────────────────────────────────────── */
+.input-field {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.input-field::placeholder { color: var(--text-muted); }
+
+.input-field:focus {
+  border-color: var(--primary);
+  background: rgba(99, 102, 241, 0.05);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+/* ─── Badge Styles ─────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.badge-primary { background: rgba(99, 102, 241, 0.15); color: var(--primary); border: 1px solid rgba(99, 102, 241, 0.3); }
+.badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.3); }
+.badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+.badge-danger  { background: rgba(239, 68, 68, 0.15);  color: var(--danger);  border: 1px solid rgba(239, 68, 68, 0.3); }
+
+/* ─── Animations ───────────────────────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(99, 102, 241, 0.3); }
+  50%       { box-shadow: 0 0 25px rgba(99, 102, 241, 0.6); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-fadeInUp  { animation: fadeInUp 0.5s ease forwards; }
+.animate-fadeIn    { animation: fadeIn 0.4s ease forwards; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* ─── Skeleton Loader ──────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 8px;
+}
+
+/* ─── Property Card ────────────────────────────────────────────────────── */
+.property-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.property-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(99, 102, 241, 0.3);
+}
+
+.property-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.property-card:hover img { transform: scale(1.05); }
+
+/* ─── Sidebar Navigation ───────────────────────────────────────────────── */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-link:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--text-primary);
+}
+
+.sidebar-link.active {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+  color: var(--primary);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+/* ─── Star Rating ──────────────────────────────────────────────────────── */
+.star { color: #94a3b8; font-size: 18px; cursor: pointer; }
+.star.filled { color: #f59e0b; }
+
+/* ─── Stat Card ────────────────────────────────────────────────────────── */
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+/* ─── Chat Bubbles ─────────────────────────────────────────────────────── */
+.bubble-sent {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: white;
+  border-radius: 18px 18px 4px 18px;
+  max-width: 70%;
+  padding: 10px 16px;
+  word-break: break-word;
+}
+
+.bubble-received {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 18px 18px 18px 4px;
+  max-width: 70%;
+  padding: 10px 16px;
+  word-break: break-word;
+}
+
+/* ─── Map Container ────────────────────────────────────────────────────── */
+.map-container {
+  width: 100%;
+  height: 350px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  z-index: 0;
+}
+
+/* ─── Leaflet Dark Mode Overrides ────────────────────────────────────────── */
+.leaflet-container {
+  background: var(--bg-dark) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+.leaflet-bar {
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+.leaflet-bar a {
+  background-color: var(--bg-elevated) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border) !important;
+}
+
+.leaflet-bar a:hover {
+  background-color: var(--primary) !important;
+  color: white !important;
+}
+
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background: var(--bg-elevated) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ─── Image Upload Zone ─────────────────────────────────────────────────── */
+.upload-zone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-zone:hover, .upload-zone.drag-over {
+  border-color: var(--primary);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+/* ─── Notification Dot ─────────────────────────────────────────────────── */
+.notification-dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 10px;
+  height: 10px;
+  background: var(--danger);
+  border-radius: 50%;
+  border: 2px solid var(--bg-dark);
+  animation: pulse-glow 2s infinite;
+}
