@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { useAuth } from './AuthContext';
 
 const ChatContext = createContext(null);
-
 export function ChatProvider({ children }) {
   const { token } = useAuth();
   const wsRef = useRef(null);
